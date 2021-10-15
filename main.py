@@ -18,6 +18,7 @@ player_lives = 6
 player_guess = []
 hangman = ''
 aux = []
+guessed_letters = []
 current_stage = stages[6]
 
 for n in range(0, len(chosen_word)):
@@ -31,45 +32,49 @@ while end_game > 0:
   guess = input("Guess a letter: ").lower()
   aux.clear()
 
-  for n in player_guess:
-    aux.append(n)
-
-  for l in range(0, len(chosen_word)):
-    if guess == chosen_word[l]:
-      player_guess[l] = chosen_word[l]
-  
-  display = listToString(player_guess)
-
-  if player_guess != aux: 
-    print(current_stage)
-    print(f"{display}")
-    print(f"\nYou guessed {guess}, that's correct. You have {player_lives} lives left.\n")
+  if guess in guessed_letters:
+    print(f"You already guessed that letter. Try again")
   else:
-    player_lives -= 1
-    if player_lives == 5:
-      current_stage = stages[5]
-      print(current_stage)
-    elif player_lives == 4:
-      current_stage = stages[4]
-      print(current_stage)
-    elif player_lives == 3:
-      current_stage = stages[3]
-      print(current_stage)
-    elif player_lives == 2:
-      current_stage = stages[2]
-      print(current_stage)
-    elif player_lives == 1:
-      current_stage = stages[1]
-      print(current_stage)
-    else:
-      current_stage = stages[0]
-      print(current_stage)
+    guessed_letters.append(guess)
+    for n in player_guess:
+      aux.append(n)
 
-    print(f"{display}")
-    print(f"\nYou guessed {guess}, that's not in the word. You have {player_lives} lives left.\n")
-  
-  if str(chosen_word) == display or player_lives == 0:
-    end_game = 0
+    for l in range(0, len(chosen_word)):
+      if guess == chosen_word[l]:
+        player_guess[l] = chosen_word[l]
+    
+    display = listToString(player_guess)
+
+    if player_guess != aux: 
+      print(current_stage)
+      print(f"{display}")
+      print(f"\nYou guessed {guess}, that's correct. You have {player_lives} lives left.\n")
+    else:
+      player_lives -= 1
+      if player_lives == 5:
+        current_stage = stages[5]
+        print(current_stage)
+      elif player_lives == 4:
+        current_stage = stages[4]
+        print(current_stage)
+      elif player_lives == 3:
+        current_stage = stages[3]
+        print(current_stage)
+      elif player_lives == 2:
+        current_stage = stages[2]
+        print(current_stage)
+      elif player_lives == 1:
+        current_stage = stages[1]
+        print(current_stage)
+      else:
+        current_stage = stages[0]
+        print(current_stage)
+
+      print(f"{display}")
+      print(f"\nYou guessed {guess}, that's not in the word. You have {player_lives} lives left.\n")
+    
+    if str(chosen_word) == display or player_lives == 0:
+      end_game = 0
 
 if player_lives > 0:
   print("You won!\n")
